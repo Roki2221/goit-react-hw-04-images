@@ -24,18 +24,19 @@ const App = () => {
     }
   }, [query]);
   useEffect(() => {
-    console.log('page', page);
     if (page !== 1) {
+      console.log('page', page);
       loadMorePhotos();
     }
   }, [page]);
 
   const fetchPhotos = async () => {
+    console.log('fetchPhotos');
     setPage(1);
     setPhotosData([]);
     setIsLoading(true);
     setError('');
-    const photosData = await servicePhotos(query, page);
+    const photosData = await servicePhotos(query, 1);
     const countPages = Math.ceil(photosData.data.totalHits / 12);
     if (photosData.data.hits.length < 1) {
       setError('Sorry, nothing found.');
@@ -47,11 +48,12 @@ const App = () => {
   };
 
   const loadMorePhotos = async () => {
+    console.log('loadMorePhotos');
     setLoadingMore(true);
-    const newphotosData = await servicePhotos(query, page);
+    const newPhotosData = await servicePhotos(query, page);
     console.log(photosData);
-    console.log(newphotosData.data.hits);
-    setPhotosData([...photosData, ...newphotosData.data.hits]);
+    console.log(newPhotosData.data.hits);
+    setPhotosData([...photosData, ...newPhotosData.data.hits]);
     setLoadingMore(false);
   };
 
